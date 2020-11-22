@@ -10,6 +10,7 @@
         "lint": "eslint ."
     },
     "dependencies": {
+        "@react-native-community/async-storage": "^1.12.1",
         "@react-navigation/bottom-tabs": "^5.11.2",
         "@react-navigation/native": "^5.1.5",
         "hammerjs": "^2.0.8",

@@ -3,6 +3,7 @@ import {View, Text, FlatList} from 'react-native';
 import { TextInput, Button, Card } from 'react-native-paper';
 import Header from './Header'
 import {useState} from 'react';
+import AsyncStorage from '@react-native-community/async-storage'
 
 const Search = ({navigation}) => {
   
@@ -18,12 +19,14 @@ const Search = ({navigation}) => {
         })
     }
 
-    const btnClick=()=>{
+    const btnClick=async()=>{
+        await AsyncStorage.setItem("newcity",city)
         navigation.navigate("home",{city:city})
     }
 
-    const listClick=(cityName)=>{
+    const listClick= async (cityName)=>{
         setcity(cityName);
+        await AsyncStorage.setItem("newcity",cityName)
         navigation.navigate("home",{city:cityName})
     }
 
