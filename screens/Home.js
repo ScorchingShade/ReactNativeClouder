@@ -17,7 +17,7 @@ const Home=(props)=>{
     });
 
 
-    const getWeather=async ()=>{
+    const getWeather=async()=>{
         let MyCity= await AsyncStorage.getItem("newcity");
         if(!MyCity){
             const {city} =props.route.params;

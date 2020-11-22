@@ -27,6 +27,7 @@ import Home from './screens/Home';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import Search from './screens/Search'
+import Ctgeo from './screens/Ctgeo';
 
 const Tab= createBottomTabNavigator()
 const App=() =>{
@@ -43,13 +44,18 @@ const App=() =>{
               }else if(route.name==="search"){
                 iconName="city"
               }
+              else if(route.name==="clevertap"){
+                iconName="spotlight-beam"
+              }
               return <MaterialCommunityIcons name={iconName} size={25} color={color}/>
             }
           })}
           tabBarOptions={{activeTintColor:"white",inactiveTintColor:"gray",activeBackgroundColor:"#00aaff",inactiveBackgroundColor:"#00aaff"}}
         >
           <Tab.Screen name="home" component={Home} initialParams={{city:"london"}}/>
+          
           <Tab.Screen name="search" component={Search}/>
+          <Tab.Screen name="clevertap" component={Ctgeo}/>
         </Tab.Navigator>
       </NavigationContainer>
     
