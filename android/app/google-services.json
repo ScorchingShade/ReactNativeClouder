@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "886821096612",
+    "firebase_url": "https://clevertaprn.firebaseio.com",
+    "project_id": "clevertaprn",
+    "storage_bucket": "clevertaprn.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:886821096612:android:89834eb156c079440baa31",
+        "android_client_info": {
+          "package_name": "com.ctrn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "886821096612-5cnsd370p1lkifuo6u1jb6lgilmgi300.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ctrn",
+            "certificate_hash": "ebdacb0d64574daa711b9db16397ae2082b540d2"
+          }
+        },
+        {
+          "client_id": "886821096612-imaq6qg0kg4n6vgm8ghnpfses5iip83b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwGva57rmbSutBxMBD79V-aZH0sRZX8L4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "886821096612-imaq6qg0kg4n6vgm8ghnpfses5iip83b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
