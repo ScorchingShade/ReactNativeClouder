@@ -24,9 +24,25 @@ import com.clevertap.android.geofence.interfaces.CTLocationUpdatesListener;
 import android.widget.Toast;
 import android.location.Location;
 import org.json.JSONObject;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.provider.Settings;
+import android.view.View;
+import android.content.Intent;
+import android.Manifest;
+import android.content.Context;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import android.content.pm.PackageManager;
+import android.app.Activity;
 
 
 public class MainApplication extends Application implements ReactApplication {
+  private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
   private CleverTapAPI mCleverTapInstance;
   private final ReactNativeHost mReactNativeHost =
       new ReactNativeHost(this) {
@@ -66,11 +82,21 @@ public class MainApplication extends Application implements ReactApplication {
     //test
     mCleverTapInstance = CleverTapAPI.getDefaultInstance(this);
     CleverTapAPI.setDebugLevel(10);
-    initCTGeofenceApi();
+
+
+    if (mCleverTapInstance != null) {
+      // proceed only if cleverTap instance is not null
+         checkPermissions();
+         initCTGeofenceApi();
+         System.out.println("CreatedCTGeofence");
+       
+      
+  }
 
 
 
   }
+
 
   private void initCTGeofenceApi() {
     if (mCleverTapInstance == null)
@@ -94,7 +120,8 @@ public class MainApplication extends Application implements ReactApplication {
             .setOnGeofenceApiInitializedListener(new CTGeofenceAPI.OnGeofenceApiInitializedListener() {
                 @Override
                 public void OnGeofenceApiInitialized() {
-                    Toast.makeText(con, "Geofence API initialized", Toast.LENGTH_SHORT).show();
+                    System.out.println("GeoFence Initialised");
+                    Toast.makeText(con, "Geofence Initialised", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -102,11 +129,13 @@ public class MainApplication extends Application implements ReactApplication {
             .setCtGeofenceEventsListener(new CTGeofenceEventsListener() {
                 @Override
                 public void onGeofenceEnteredEvent(JSONObject jsonObject) {
+                  System.out.println("GeoFence Entered");
                     Toast.makeText(con, "Geofence Entered", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onGeofenceExitedEvent(JSONObject jsonObject) {
+                  System.out.println("GeoFence exited");
                     Toast.makeText(con, "Geofence Exited", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -115,10 +144,45 @@ public class MainApplication extends Application implements ReactApplication {
             .setCtLocationUpdatesListener(new CTLocationUpdatesListener() {
                 @Override
                 public void onLocationUpdates(Location location) {
+                  System.out.println("Location Updated");
                     Toast.makeText(con, "Location updated", Toast.LENGTH_SHORT).show();
                 }
             });
 }
+
+//###1Req
+private boolean checkPermissions() {
+  int fineLocationPermissionState = ContextCompat.checkSelfPermission(
+          this, Manifest.permission.ACCESS_FINE_LOCATION);
+
+  int backgroundLocationPermissionState = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? ContextCompat.checkSelfPermission(
+          this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) : PackageManager.PERMISSION_GRANTED;
+
+  return (fineLocationPermissionState == PackageManager.PERMISSION_GRANTED) &&
+          (backgroundLocationPermissionState == PackageManager.PERMISSION_GRANTED);
+}
+
+//###1Req
+private void requestPermissions() {
+  boolean permissionAccessFineLocationApproved =
+          ActivityCompat.checkSelfPermission(
+                  this, Manifest.permission.ACCESS_FINE_LOCATION)
+                  == PackageManager.PERMISSION_GRANTED;
+
+  boolean backgroundLocationPermissionApproved =
+          ActivityCompat.checkSelfPermission(
+                  this, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                  == PackageManager.PERMISSION_GRANTED;
+
+  boolean shouldProvideRationale =
+          permissionAccessFineLocationApproved && backgroundLocationPermissionApproved;
+
+  
+}
+
+
+  
+  
 
   /**
    * Loads Flipper in React Native templates. Call this in the onCreate method with something like
