@@ -39,7 +39,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import android.content.pm.PackageManager;
 import android.app.Activity;
-
+import android.provider.Settings;
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainApplication extends Application implements ReactApplication {
   private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
@@ -86,12 +87,25 @@ public class MainApplication extends Application implements ReactApplication {
 
     if (mCleverTapInstance != null) {
       // proceed only if cleverTap instance is not null
-         checkPermissions();
-         initCTGeofenceApi();
-         System.out.println("CreatedCTGeofence");
-       
-      
-  }
+      System.out.println("CHecked permission");
+      if (!checkPermissions()) {
+          requestPermissions();
+          CTGeofenceAPI.getInstance(getApplicationContext()).triggerLocation();
+          System.out.println("CHecked perm");
+      } else {
+          initCTGeofenceApi();
+          System.out.println("instantiated geofenceAPI");
+          try {
+            
+        } catch (IllegalStateException e) {
+            // geofence not initialized
+            e.printStackTrace();
+            // init geofence
+            initCTGeofenceApi();
+        }
+      }
+    
+    }
 
 
 
@@ -179,6 +193,27 @@ private void requestPermissions() {
 
   
 }
+
+
+ /**
+     * Callback received when a permissions request has been completed.
+     */
+    
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.length <= 0) {
+                // If user interaction was interrupted, the permission request is cancelled and you
+                // receive empty arrays.
+            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                initCTGeofenceApi();
+            } else {
+               
+                System.out.println("can't init sorry");
+            }
+        }
+    }
+
 
 
   
